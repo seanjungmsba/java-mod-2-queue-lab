@@ -19,7 +19,6 @@
 
 import java.util.Scanner;
 import java.util.LinkedList;
-import java.util.InputMismatchException;
 import java.util.Queue;
 import java.util.PriorityQueue;
 
@@ -36,22 +35,23 @@ public class Main {
      */
     private static void checkIn(Scanner sc) {
 
-        String customer;
-        customer = sc.nextLine().trim();
-        if (customer.equals("")) { // if user doesn't enter name, ask again 
-            System.err.println("Enter your name again.");
+            // System.out.println("What is the name of the customer?");
+            String customer = "";
 
-            while ( !(sc.nextLine().trim().equals("")) ) // keep asking until valid name is provided 
-                customer = sc.nextLine();
-        }
-        
-        if (tables.size() < MAX_TABLES) { // if there's available table, accomodate a customer
-            System.out.println("There is a table you can seat - Please follow me");
-            tables.add(customer);
-        } else { // otherwise, put a customer into a waiting list
-            System.out.println("Table is currently full - Please be seated in the waiting seat");
-            waitingList.add(customer);
-        }
+            while (customer.equals("")) { // if user doesn't enter name, ask again 
+                System.err.print("Enter your name: ");
+                customer = sc.nextLine().trim();
+
+            }
+
+            if (tables.size() < MAX_TABLES) { // if there's available table, accomodate a customer
+                System.out.println("There is a table you can seat - Please follow me");
+                tables.add(customer);
+            } else { // otherwise, put a customer into a waiting list
+                System.out.println("Table is currently full - Please be seated in the waiting seat");
+                waitingList.add(customer);
+            }
+    
 
     }
 
@@ -61,14 +61,60 @@ public class Main {
     */
     private static void checkOut(Scanner sc) {
 
+        // checkout isnot made possible when there is no table occupied
+        if (tables.size() < 1) {
+            System.out.println("You cannot check-out an empty table!");
+            return;
+        }
+
         // if there is a open table and is at least one customer waiting
         // remove a customer from waiting list and direct them to a table
-        if (tables.size() < MAX_TABLES && waitingList.size() > 0) {
+        if (tables.size() <= MAX_TABLES && waitingList.size() > 0) {
+            tables.remove();
             tables.add(waitingList.remove());
         } else { // if not, just remove a table
             tables.remove();
         }
     
+    }
+
+    public static void main(String[] args) {
+
+        boolean processing = true;
+        Scanner sc = new Scanner(System.in);
+
+        while (processing) {
+
+            System.out.println("Enter 1 to CHECK-IN a customer");
+            System.out.println("Enter 2 to CHECK-OUT a customer");
+            System.out.println("Enter 3 to END");
+
+            try {
+            
+                int choice = Integer.parseInt(sc.nextLine());
+        
+                if ( !(choice == 1 || choice == 2 || choice == 3) ) 
+                    throw new Exception();
+                
+                if ( choice == 1 ) {
+                    checkIn(sc);
+                } else if ( choice == 2 ) {
+                    checkOut(sc);
+                } else if ( choice == 3 ) {
+                    return;
+                }
+        
+                System.out.println("Tables: " + tables);
+                System.out.println("Waiting List: " + waitingList);
+
+            } catch (Exception e) {
+                System.out.println("Enter a valid number!");
+                e.printStackTrace();
+                sc.next();
+            }
+
+        }
+        sc.close();
     }
 
 }
