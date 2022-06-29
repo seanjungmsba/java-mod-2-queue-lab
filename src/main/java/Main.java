@@ -25,16 +25,50 @@ import java.util.PriorityQueue;
 
 public class Main {
 
-    private static Queue<String> waitingList = new PriorityQueue<>();
-    private static Queue<String> tables = new LinkedList<>();
-    private final static int MAX_TABLES = 2;
+    private static Queue<String> waitingList = new PriorityQueue<>(); // stores name of the customer who are in the waiting list
+    private static Queue<String> tables = new LinkedList<>(); // stores open tables in a restaurant
+    private final static int MAX_TABLES = 2; // restaurant only has two tables
 
+    /*
+     * If they want to check someone in, check if a table is available.
+     * If a table is available, check them in
+     * If a table is not available, put them on a waiting list
+     */
     private static void checkIn(Scanner sc) {
+
+        String customer;
+        customer = sc.nextLine().trim();
+        if (customer.equals("")) { // if user doesn't enter name, ask again 
+            System.err.println("Enter your name again.");
+
+            while ( !(sc.nextLine().trim().equals("")) ) // keep asking until valid name is provided 
+                customer = sc.nextLine();
+        }
+        
+        if (tables.size() < MAX_TABLES) { // if there's available table, accomodate a customer
+            System.out.println("There is a table you can seat - Please follow me");
+            tables.add(customer);
+        } else { // otherwise, put a customer into a waiting list
+            System.out.println("Table is currently full - Please be seated in the waiting seat");
+            waitingList.add(customer);
+        }
 
     }
 
+    /* 
+     * Free one of the table that is taken
+     * Immediately assign the table to the next person on the waiting list
+    */
     private static void checkOut(Scanner sc) {
 
+        // if there is a open table and is at least one customer waiting
+        // remove a customer from waiting list and direct them to a table
+        if (tables.size() < MAX_TABLES && waitingList.size() > 0) {
+            tables.add(waitingList.remove());
+        } else { // if not, just remove a table
+            tables.remove();
+        }
+    
     }
 
 }
