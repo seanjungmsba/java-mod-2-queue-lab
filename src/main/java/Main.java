@@ -29,6 +29,7 @@ public class Main {
     private final static int MAX_TABLES = 2; // restaurant only has two tables
 
     /*
+     * checkIn method addes customer to either table or waiting list depending on the condition 
      * If they want to check someone in, check if a table is available.
      * If a table is available, check them in
      * If a table is not available, put them on a waiting list
@@ -51,11 +52,11 @@ public class Main {
                 System.out.println("Table is currently full - Please be seated in the waiting seat");
                 waitingList.add(customer);
             }
-    
 
     }
 
     /* 
+     * checkOut method removes customer from either waiting list or table depending on the condition 
      * Free one of the table that is taken
      * Immediately assign the table to the next person on the waiting list
     */
@@ -78,6 +79,7 @@ public class Main {
     
     }
 
+    /* Main Method */
     public static void main(String[] args) {
 
         boolean processing = true;
@@ -108,9 +110,11 @@ public class Main {
                 System.out.println("Waiting List: " + waitingList);
 
             } catch (Exception e) {
+
                 System.out.println("Enter a valid number!");
                 e.printStackTrace();
                 sc.next();
+                
             }
 
         }
