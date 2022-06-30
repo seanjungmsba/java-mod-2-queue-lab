@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.PriorityQueue;
 
-public class Main {
+public class Restaurant {
 
     private static Queue<String> waitingList = new PriorityQueue<>(); // stores name of the customer who are in the waiting list
     private static Queue<String> tables = new LinkedList<>(); // stores open tables in a restaurant
@@ -36,13 +36,11 @@ public class Main {
      */
     private static void checkIn(Scanner sc) {
 
-            // System.out.println("What is the name of the customer?");
             String customer = "";
 
             while (customer.equals("")) { // if user doesn't enter name, ask again 
-                System.err.print("Enter your name: ");
+                System.err.print("Enter the customer's name: ");
                 customer = sc.nextLine().trim();
-
             }
 
             if (tables.size() < MAX_TABLES) { // if there's available table, accomodate a customer
@@ -53,7 +51,7 @@ public class Main {
                 waitingList.add(customer);
             }
 
-    }
+    } // end of checkIn() method
 
     /* 
      * checkOut method removes customer from either waiting list or table depending on the condition 
@@ -62,7 +60,7 @@ public class Main {
     */
     private static void checkOut(Scanner sc) {
 
-        // checkout isnot made possible when there is no table occupied
+        // checkout is not made possible when there is no table occupied
         if (tables.size() < 1) {
             System.out.println("You cannot check-out an empty table!");
             return;
@@ -77,7 +75,7 @@ public class Main {
             tables.remove();
         }
     
-    }
+    } // end of checkOut() method
 
     /* Main Method */
     public static void main(String[] args) {
@@ -92,12 +90,12 @@ public class Main {
             System.out.println("Enter 3 to END");
 
             try {
-            
+
                 int choice = Integer.parseInt(sc.nextLine());
-        
+
                 if ( !(choice == 1 || choice == 2 || choice == 3) ) 
                     throw new Exception();
-                
+    
                 if ( choice == 1 ) {
                     checkIn(sc);
                 } else if ( choice == 2 ) {
@@ -117,8 +115,8 @@ public class Main {
                 
             }
 
-        }
+        } // end of while-loop
         sc.close();
-    }
+    } // end of main method
 
 }
